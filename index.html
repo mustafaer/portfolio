@@ -2,24 +2,29 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
   <title>Mustafa ER | Modern Portfolio</title>
-  <meta name="description" content="Mustafa ER's modern portfolio. Front-End Developer specializing in Angular, JavaScript, TypeScript, and Bootstrap. Explore projects and contact.">
-  <meta name="keywords" content="Mustafa ER, Portfolio, Front-End Developer, Angular, JavaScript, TypeScript, Bootstrap, Projects">
-  <meta name="author" content="Mustafa ER">
-  <link rel="canonical" href="https://mustafaer.net/">
-  <meta property="og:title" content="Mustafa ER | Modern Portfolio">
-  <meta property="og:description" content="Front-End Developer specializing in Angular, JavaScript, TypeScript, and Bootstrap.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://mustafaer.net/">
-  <meta property="og:image" content="https://mustafaer.net/assets/msc.png">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Mustafa ER | Modern Portfolio">
-  <meta name="twitter:description" content="Front-End Developer specializing in Angular, JavaScript, TypeScript, and Bootstrap.">
-  <meta name="twitter:image" content="https://mustafaer.net/assets/msc.png">
-  <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+  <meta content="Mustafa ER's modern portfolio. Front-End Developer specializing in Angular, JavaScript, TypeScript, and Bootstrap. Explore projects and contact."
+        name="description">
+  <meta content="Mustafa ER, Portfolio, Front-End Developer, Angular, JavaScript, TypeScript, Bootstrap, Projects"
+        name="keywords">
+  <meta content="Mustafa ER" name="author">
+  <link href="https://mustafaer.net/" rel="canonical">
+  <meta content="Mustafa ER | Modern Portfolio" property="og:title">
+  <meta content="Front-End Developer specializing in Angular, JavaScript, TypeScript, and Bootstrap."
+        property="og:description">
+  <meta content="website" property="og:type">
+  <meta content="https://mustafaer.net/" property="og:url">
+  <meta content="https://mustafaer.net/assets/msc.png" property="og:image">
+  <meta content="summary_large_image" name="twitter:card">
+  <meta content="Mustafa ER | Modern Portfolio" name="twitter:title">
+  <meta content="Front-End Developer specializing in Angular, JavaScript, TypeScript, and Bootstrap."
+        name="twitter:description">
+  <meta content="https://mustafaer.net/assets/msc.png" name="twitter:image">
+  <link href="assets/sddlabs-logo-1.ico" rel="icon" type="image/x-icon">
   <link href="assets/bootstrap.min.css" rel="stylesheet">
   <link href="assets/googlefont.css" rel="stylesheet">
+  <link rel="manifest" href="assets/manifest.json">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
   <link href="styles.css" rel="stylesheet">
   <script type="application/ld+json">
@@ -43,10 +48,11 @@
 </head>
 <body>
 <header>
-  <nav class="navbar navbar-expand-lg navbar-light shadow-sm fixed-top" aria-label="Main navigation">
+  <nav aria-label="Main navigation" class="navbar navbar-expand-lg navbar-light shadow-sm fixed-top">
     <div class="container">
       <a class="navbar-brand fw-bold" href="#">Mustafa ER | Portfolio</a>
-      <button class="navbar-toggler" data-bs-target="#navbarNav" data-bs-toggle="collapse" type="button" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <button aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
+              data-bs-target="#navbarNav" data-bs-toggle="collapse" type="button">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
@@ -60,7 +66,7 @@
 </header>
 
 <main>
-  <div class="hero-bg-svg" aria-hidden="true">
+  <div aria-hidden="true" class="hero-bg-svg">
     <svg fill="none" height="320" viewBox="0 0 1440 320" width="100%" xmlns="http://www.w3.org/2000/svg">
       <path
         d="M0,160L60,170.7C120,181,240,203,360,197.3C480,192,600,160,720,133.3C840,107,960,85,1080,101.3C1200,117,1320,171,1380,197.3L1440,224L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"
@@ -76,7 +82,7 @@
   </div>
   <section class="hero fade-in" id="home">
     <div class="container hero-content">
-      <img alt="Mustafa ER Avatar" class="avatar mb-3" src="assets/msc.png" width="160" height="160" loading="eager">
+      <img alt="Mustafa ER Avatar" class="avatar mb-3" height="160" loading="eager" src="assets/msc.png" width="160">
       <h1 class="display-4 fw-bold mb-2">Mustafa ER</h1>
       <p class="lead mb-4 animated-text">
         <span class="typed-text"></span>
@@ -105,7 +111,7 @@
       <!-- Example project card -->
       <div class="col-md-4">
         <div class="card h-100">
-          <img alt="Weight Tracker - Easy Track project screenshot" class="card-img-top" src="assets/weight-track-brand.png" width="400" height="225" loading="lazy">
+          <img alt="Weight Tracker - Easy Track project screenshot" class="card-img-top" height="225" width="400" loading="lazy" src="assets/weight-track-brand.png">
           <div class="card-body">
             <h3 class="card-title h5">Weight Tracker - Easy Track</h3>
             <p class="card-text">
@@ -115,12 +121,188 @@
           </div>
           <div class="card-footer p-3 bg-white border-0">
             <a class="btn btn-gradient btn-sm"
-               href="https://play.google.com/store/apps/details?id=net.mustafaer.app.weighttracker" rel="noopener" target="_blank">View Project</a>
+               href="https://play.google.com/store/apps/details?id=net.mustafaer.app.weighttracker" rel="noopener"
+               target="_blank">View Project</a>
           </div>
         </div>
       </div>
-      <!-- Repeat for other projects, updating alt text and using loading="lazy" -->
-      <!-- ... (other project cards, update all <img> tags as above) ... -->
+      <div class="col-md-4">
+        <div class="card h-100">
+          <img alt="Project 2" class="card-img-top" height="225" width="400" loading="lazy" src="assets/tabis-brand.png">
+          <div class="card-body">
+            <h5 class="card-title">
+              Thesis - Graduate Advisor Selection System - (TABİS)
+            </h5>
+            <p class="card-text">
+              A management and process monitoring platform where the department chair can actively follow the process
+              enables the coordination of the advisor selection for the ELECTRICAL ELECTRONIC ENGINEERING DESIGN course.
+              The students can choose the advisors they want to work with, and the advisors can work together within
+              their quota.
+              <br>
+              <br>
+              <i>
+                Built with Angular, TypeScript, Bootstrap, Javascript, CSS, HTML, NodeJS, ExpressJS, PostgreSQL.
+              </i>
+            </p>
+          </div>
+          <div class="card-footer p-3 bg-white border-0">
+            <a class="btn btn-gradient btn-sm" href="#">View Project</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100">
+          <img alt="Project 2" class="card-img-top" height="225" width="400" loading="lazy" src="assets/medirise-brand.png">
+          <div class="card-body">
+            <h5 class="card-title">
+              Medirise
+            </h5>
+            <p class="card-text">
+              Medirise company's website design and development. Freelance project.
+              <br>
+              <br>
+              <i>
+                Built with HTML, CSS, JavaScript, Bootstrap.
+              </i>
+            </p>
+          </div>
+          <div class="card-footer p-3 bg-white border-0">
+            <a class="btn btn-gradient btn-sm" href="#">View Project</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100">
+          <img alt="Project 2" class="card-img-top" height="225" width="400" loading="lazy" src="assets/math-for-kids-brand.png">
+          <div class="card-body">
+            <h5 class="card-title">
+              Maths For Kids
+            </h5>
+            <p class="card-text">
+              Platform for interactive learning of addition, subtraction, multiplication, division for children
+              requiring special education and then evaluating students on the same topics, and measuring the status of
+              students.
+              <br>
+              <br>
+              <i>
+                Built with Angular, TypeScript, Bootstrap, Javascript, CSS, HTML.
+              </i>
+            </p>
+          </div>
+          <div class="card-footer p-3 bg-white border-0">
+            <a class="btn btn-gradient btn-sm" href="https://github.com/mustafaer/maths-for-kids">View Project</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100">
+          <img alt="Project 3" class="card-img-top" height="225" width="400" loading="lazy" src="assets/bides-login-page2.png">
+          <div class="card-body">
+            <h5 class="card-title">
+              Thesis Evaluation System - (BİDES)
+            </h5>
+            <p class="card-text">
+              Sakarya University Electrical Electronics Engineering Department Graduation / Thesis evaluation system.
+              I realize the design and coding of the system where graduation students upload their theses, and the
+              academics related to the thesis topic are appointed as jury by the department chair, and the jury
+              evaluates the relevant group according to the existing criteria in the system.
+              <br>
+              <br>
+              <i>
+                Built with Angular, TypeScript, Bootstrap, JavaScript, CSS, HTML, NodeJS, ExpressJS, PostgreSQL .
+              </i>
+            </p>
+          </div>
+          <div class="card-footer p-3 bg-white border-0">
+            <a class="btn btn-gradient btn-sm" href="https://github.com/bides">View Project</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100">
+          <img alt="Project 3" class="card-img-top" height="225" width="400" loading="lazy" src="assets/daser-brand.jpg">
+          <div class="card-body">
+            <h5 class="card-title">
+              DASER - Device Aid Search And Rescue
+            </h5>
+            <p class="card-text">
+              DASER is a mobile software that allows disaster survivors to be identified and reported to search and
+              rescue teams after natural disasters such as earthquakes.
+              I took part in this project as the leader of the electrical and electronic team.
+              Please check the application page and the internet for details.
+            </p>
+          </div>
+          <div class="card-footer p-3 bg-white border-0">
+            <a class="btn btn-gradient btn-sm" href="https://www.facebook.com/daserapp">View Project</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100">
+          <img alt="Project 3" class="card-img-top" height="225" width="400" loading="lazy" src="assets/noimage.jpg">
+          <div class="card-body">
+            <h5 class="card-title">
+              Exam Tracking System
+            </h5>
+            <p class="card-text">
+              Multi-user Exam Follow-Up Automation for Sakarya University Electrical and Electronics Engineering
+              Department, which provides individual entry opportunity to record and calculate exams entered by research
+              assistants.
+              <br>
+              <br>
+              <i>
+                PHP, MySQL, PDO, HTML5, CSS3, Bootstrap.
+              </i>
+            </p>
+          </div>
+          <div class="card-footer p-3 bg-white border-0">
+            <a class="btn btn-gradient btn-sm" href="#">View Project</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100">
+          <img alt="Project 3" class="card-img-top" height="225" width="400" loading="lazy" src="assets/daser-brand.jpg">
+          <div class="card-body">
+            <h5 class="card-title">
+              DASER - Earthquake Sensor Module
+            </h5>
+            <p class="card-text">
+              Project developer in the earthquake sensor project developed with Arduino and Intel Galileo
+              microcontroller platforms for use within the DASER project
+              (Stopped)
+            </p>
+          </div>
+          <div class="card-footer p-3 bg-white border-0">
+            <a class="btn btn-gradient btn-sm" href="https://www.facebook.com/daserapp">View Project</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100">
+          <img alt="Project 3" class="card-img-top" height="225" width="400" loading="lazy" src="assets/noimage.jpg">
+          <div class="card-body">
+            <h5 class="card-title">
+              Laboratory Appointment System
+            </h5>
+            <p class="card-text">
+              An automation system that ensures that the appropriate days and times are determined by the people in
+              charge for the laboratories of the Electrical and Electronics Engineering Department of Sakarya University
+              and that students registered in the system can be reserved fairly, both individually and in groups.
+              It continues to be developed when needed.
+              (Stopped)
+              <br>
+              <br>
+              <i>
+                PHP, MySQL, HTML5, CSS3.
+              </i>
+            </p>
+          </div>
+          <div class="card-footer p-3 bg-white border-0">
+            <a class="btn btn-gradient btn-sm" href="#">View Project</a>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 </main>
@@ -131,19 +313,24 @@
   </div>
 </footer>
 
-<div class="social-bar" aria-label="Social media links">
-  <a aria-label="GitHub" href="https://github.com/mustafaer" target="_blank" rel="noopener"><i class="bi bi-github"></i></a>
-  <a aria-label="LinkedIn" href="https://linkedin.com/in/mustafaer" target="_blank" rel="noopener"><i class="bi bi-linkedin"></i></a>
-  <a aria-label="Twitter" href="https://twitter.com/mustafaer_dev" target="_blank" rel="noopener"><i class="bi bi-twitter"></i></a>
-  <a aria-label="Instagram" href="https://instagram.com/mustafaer_dev" target="_blank" rel="noopener"><i class="bi bi-instagram"></i></a>
-  <a aria-label="YouTube" href="https://www.youtube.com/@mustafaer_dev" target="_blank" rel="noopener"><i class="bi bi-youtube"></i></a>
-  <a aria-label="Twitch" href="https://www.twitch.tv/mustafaer_dev" target="_blank" rel="noopener"><i class="bi bi-twitch"></i></a>
+<div aria-label="Social media links" class="social-bar">
+  <a aria-label="GitHub" href="https://github.com/mustafaer" rel="noopener" target="_blank"><i class="bi bi-github"></i></a>
+  <a aria-label="LinkedIn" href="https://linkedin.com/in/mustafaer" rel="noopener" target="_blank"><i
+    class="bi bi-linkedin"></i></a>
+  <a aria-label="Twitter" href="https://twitter.com/mustafaer_dev" rel="noopener" target="_blank"><i
+    class="bi bi-twitter"></i></a>
+  <a aria-label="Instagram" href="https://instagram.com/mustafaer_dev" rel="noopener" target="_blank"><i
+    class="bi bi-instagram"></i></a>
+  <a aria-label="YouTube" href="https://www.youtube.com/@mustafaer_dev" rel="noopener" target="_blank"><i
+    class="bi bi-youtube"></i></a>
+  <a aria-label="Twitch" href="https://www.twitch.tv/mustafaer_dev" rel="noopener" target="_blank"><i
+    class="bi bi-twitch"></i></a>
   <a aria-label="Email" href="mailto:mustafaerpro@email.com"><i class="bi bi-envelope"></i></a>
 </div>
 
-<button class="back-to-top" id="backToTop" title="Back to top" aria-label="Back to top">&#8679;</button>
+<button aria-label="Back to top" class="back-to-top" id="backToTop" title="Back to top">&#8679;</button>
 
-<script src="assets/bootstrap.bundle.min.js" defer></script>
-<script src="main.js" defer></script>
+<script defer src="assets/bootstrap.bundle.min.js"></script>
+<script defer src="main.js"></script>
 </body>
 </html>
