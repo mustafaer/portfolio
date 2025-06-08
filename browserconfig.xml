@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<browserconfig>
+  <msapplication>
+    <tile>
+      <square150x150logo src="assets/sddlabs-logo-1.ico"/>
+      <TileColor>#2575fc</TileColor>
+    </tile>
+  </msapplication>
+</browserconfig>
