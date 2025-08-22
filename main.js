@@ -26,6 +26,9 @@ class PortfolioApp {
     this.setupResizeHandler();
     this.setupMobileOptimizations();
     this.setupAccessibility();
+
+    // Initialize Mobile SEO Features
+    this.initMobileSEO();
   }
 
   // Loading Animation
@@ -616,6 +619,378 @@ class PortfolioApp {
         document.body.classList.add('low-memory-mode');
       }
     }
+
+    // Mobile SEO: Monitor Core Web Vitals
+    this.monitorCoreWebVitals();
+
+    // Mobile SEO: Track user engagement
+    this.trackMobileEngagement();
+  }
+
+  // Monitor Core Web Vitals for Mobile SEO
+  monitorCoreWebVitals() {
+    // Largest Contentful Paint (LCP)
+    if ('PerformanceObserver' in window) {
+      try {
+        const lcpObserver = new PerformanceObserver((entryList) => {
+          const entries = entryList.getEntries();
+          const lastEntry = entries[entries.length - 1];
+
+          if (typeof gtag !== 'undefined') {
+            gtag('event', 'web_vitals', {
+              event_category: 'Mobile Performance',
+              event_label: 'LCP',
+              value: Math.round(lastEntry.startTime),
+              non_interaction: true,
+              custom_parameter_1: this.isMobile ? 'mobile' : 'desktop'
+            });
+          }
+
+          // SEO: Log performance data
+          console.log('Mobile LCP:', Math.round(lastEntry.startTime), 'ms');
+        });
+
+        lcpObserver.observe({ type: 'largest-contentful-paint', buffered: true });
+      } catch (error) {
+        console.warn('LCP monitoring not supported:', error);
+      }
+
+      // First Input Delay (FID)
+      try {
+        const fidObserver = new PerformanceObserver((entryList) => {
+          const entries = entryList.getEntries();
+          entries.forEach((entry) => {
+            const fid = entry.processingStart - entry.startTime;
+
+            if (typeof gtag !== 'undefined') {
+              gtag('event', 'web_vitals', {
+                event_category: 'Mobile Performance',
+                event_label: 'FID',
+                value: Math.round(fid),
+                non_interaction: true,
+                custom_parameter_1: this.isMobile ? 'mobile' : 'desktop'
+              });
+            }
+
+            console.log('Mobile FID:', Math.round(fid), 'ms');
+          });
+        });
+
+        fidObserver.observe({ type: 'first-input', buffered: true });
+      } catch (error) {
+        console.warn('FID monitoring not supported:', error);
+      }
+
+      // Cumulative Layout Shift (CLS)
+      try {
+        let clsValue = 0;
+        const clsObserver = new PerformanceObserver((entryList) => {
+          const entries = entryList.getEntries();
+          entries.forEach((entry) => {
+            if (!entry.hadRecentInput) {
+              clsValue += entry.value;
+            }
+          });
+
+          if (typeof gtag !== 'undefined') {
+            gtag('event', 'web_vitals', {
+              event_category: 'Mobile Performance',
+              event_label: 'CLS',
+              value: Math.round(clsValue * 1000),
+              non_interaction: true,
+              custom_parameter_1: this.isMobile ? 'mobile' : 'desktop'
+            });
+          }
+
+          console.log('Mobile CLS:', clsValue.toFixed(4));
+        });
+
+        clsObserver.observe({ type: 'layout-shift', buffered: true });
+      } catch (error) {
+        console.warn('CLS monitoring not supported:', error);
+      }
+    }
+  }
+
+  // Track Mobile User Engagement for SEO
+  trackMobileEngagement() {
+    if (!this.isMobile) return;
+
+    // Track mobile scroll depth
+    let maxScrollDepth = 0;
+    const trackScrollDepth = () => {
+      const scrollDepth = Math.round((window.scrollY + window.innerHeight) / document.documentElement.scrollHeight * 100);
+
+      if (scrollDepth > maxScrollDepth) {
+        maxScrollDepth = scrollDepth;
+
+        // Track milestone scroll depths
+        if ([25, 50, 75, 90, 100].includes(scrollDepth)) {
+          if (typeof gtag !== 'undefined') {
+            gtag('event', 'scroll_depth', {
+              event_category: 'Mobile Engagement',
+              event_label: `${scrollDepth}%`,
+              value: scrollDepth,
+              custom_parameter_1: 'mobile_scroll'
+            });
+          }
+        }
+      }
+    };
+
+    window.addEventListener('scroll', this.throttle(trackScrollDepth, 500), { passive: true });
+
+    // Track mobile session time
+    const sessionStart = Date.now();
+    window.addEventListener('beforeunload', () => {
+      const sessionDuration = Math.round((Date.now() - sessionStart) / 1000);
+
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'session_duration', {
+          event_category: 'Mobile Engagement',
+          event_label: 'Session Time',
+          value: sessionDuration,
+          custom_parameter_1: 'mobile_session'
+        });
+      }
+    });
+
+    // Track mobile interactions
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('.project-card')) {
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'project_view', {
+            event_category: 'Mobile Engagement',
+            event_label: 'Project Card Click',
+            custom_parameter_1: 'mobile_interaction'
+          });
+        }
+      }
+
+      if (e.target.closest('.contact-btn')) {
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'contact_intent', {
+            event_category: 'Mobile Engagement',
+            event_label: 'Contact Button Click',
+            custom_parameter_1: 'mobile_conversion'
+          });
+        }
+      }
+    });
+
+    // Track mobile navigation usage
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('.nav-link')) {
+        const section = e.target.getAttribute('data-section');
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'navigation', {
+            event_category: 'Mobile Navigation',
+            event_label: section,
+            custom_parameter_1: 'mobile_nav'
+          });
+        }
+      }
+    });
+
+    // Track mobile device orientation changes
+    window.addEventListener('orientationchange', () => {
+      setTimeout(() => {
+        const orientation = window.orientation === 90 || window.orientation === -90 ? 'landscape' : 'portrait';
+
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'orientation_change', {
+            event_category: 'Mobile Behavior',
+            event_label: orientation,
+            custom_parameter_1: 'mobile_orientation'
+          });
+        }
+      }, 100);
+    });
+  }
+
+  // Throttle function for performance
+  throttle(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+      const later = () => {
+        clearTimeout(timeout);
+        func(...args);
+      };
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
+  }
+
+  // Enhanced mobile SEO structured data injection
+  injectMobileSEOData() {
+    // Add mobile-specific structured data
+    const mobileStructuredData = {
+      "@context": "https://schema.org",
+      "@type": "MobileApplication",
+      "name": "Mustafa ER Portfolio",
+      "operatingSystem": "Android, iOS",
+      "applicationCategory": "BusinessApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "creator": {
+        "@type": "Person",
+        "name": "Mustafa ER"
+      }
+    };
+
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.textContent = JSON.stringify(mobileStructuredData);
+    document.head.appendChild(script);
+
+    // Add mobile-specific meta tags dynamically
+    if (this.isMobile) {
+      const mobileMeta = [
+        { name: 'mobile-web-app-capable', content: 'yes' },
+        { name: 'mobile-web-app-status-bar-style', content: 'black-translucent' },
+        { name: 'format-detection', content: 'telephone=yes' }
+      ];
+
+      mobileMeta.forEach(meta => {
+        const existingMeta = document.querySelector(`meta[name="${meta.name}"]`);
+        if (!existingMeta) {
+          const metaTag = document.createElement('meta');
+          metaTag.name = meta.name;
+          metaTag.content = meta.content;
+          document.head.appendChild(metaTag);
+        }
+      });
+    }
+  }
+
+  // Initialize mobile SEO features
+  initMobileSEO() {
+    this.injectMobileSEOData();
+    this.monitorPerformance();
+
+    // Mobile-specific PWA features
+    if ('serviceWorker' in navigator && this.isMobile) {
+      this.initPWAFeatures();
+    }
+
+    // Mobile SEO: Add breadcrumb navigation
+    this.addBreadcrumbNavigation();
+  }
+
+  // Initialize PWA features for mobile
+  initPWAFeatures() {
+    // Show install prompt on mobile
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      this.deferredPrompt = e;
+
+      // Show install button for mobile users
+      this.showInstallPrompt();
+    });
+
+    // Track PWA installation
+    window.addEventListener('appinstalled', (e) => {
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'pwa_install', {
+          event_category: 'Mobile Engagement',
+          event_label: 'PWA Installed',
+          custom_parameter_1: 'mobile_pwa'
+        });
+      }
+    });
+  }
+
+  // Show mobile install prompt
+  showInstallPrompt() {
+    if (!this.isMobile || !this.deferredPrompt) return;
+
+    const installBanner = document.createElement('div');
+    installBanner.className = 'install-banner';
+    installBanner.innerHTML = `
+      <div class="install-content">
+        <div class="install-icon">📱</div>
+        <div class="install-text">
+          <h4>Install Portfolio App</h4>
+          <p>Get quick access to my portfolio</p>
+        </div>
+        <button class="install-btn">Install</button>
+        <button class="install-close">×</button>
+      </div>
+    `;
+
+    installBanner.style.cssText = `
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
+      background: rgba(30, 41, 59, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      padding: 16px;
+      z-index: 1000;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    `;
+
+    document.body.appendChild(installBanner);
+
+    // Handle install button click
+    installBanner.querySelector('.install-btn').addEventListener('click', async () => {
+      this.deferredPrompt.prompt();
+      const { outcome } = await this.deferredPrompt.userChoice;
+
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'pwa_prompt_response', {
+          event_category: 'Mobile Engagement',
+          event_label: outcome,
+          custom_parameter_1: 'mobile_pwa_prompt'
+        });
+      }
+
+      installBanner.remove();
+      this.deferredPrompt = null;
+    });
+
+    // Handle close button
+    installBanner.querySelector('.install-close').addEventListener('click', () => {
+      installBanner.remove();
+    });
+
+    // Auto-hide after 10 seconds
+    setTimeout(() => {
+      if (installBanner.parentNode) {
+        installBanner.remove();
+      }
+    }, 10000);
+  }
+
+  // Add breadcrumb navigation for mobile SEO
+  addBreadcrumbNavigation() {
+    const breadcrumbData = {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://mustafaer.net/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Portfolio",
+          "item": "https://mustafaer.net/#projects"
+        }
+      ]
+    };
+
+    const breadcrumbScript = document.createElement('script');
+    breadcrumbScript.type = 'application/ld+json';
+    breadcrumbScript.textContent = JSON.stringify(breadcrumbData);
+    document.head.appendChild(breadcrumbScript);
   }
 }
 

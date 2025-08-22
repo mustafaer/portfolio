@@ -1,40 +1,41 @@
 User-agent: *
 Allow: /
 
-# Enhanced SEO directives
-User-agent: Googlebot
+# Mobile-specific crawlers
+User-agent: Googlebot-Mobile
 Allow: /
-Crawl-delay: 1
 
 User-agent: Bingbot
 Allow: /
-Crawl-delay: 1
 
 User-agent: Slurp
 Allow: /
-Crawl-delay: 2
 
-# Allow all search engines to access important files
+# Block access to admin/development files
+Disallow: /node_modules/
+Disallow: /.git/
+Disallow: /.env
+Disallow: /package.json
+Disallow: /package-lock.json
+Disallow: /webpack.config.js
+Disallow: /tsconfig.json
+Disallow: /.gitignore
+Disallow: /README.md
+Disallow: /LICENSE
+
+# Allow access to important assets
 Allow: /assets/
 Allow: /styles.css
 Allow: /main.js
-Allow: /assets/*.png
-Allow: /assets/*.jpg
-Allow: /assets/*.ico
-Allow: /assets/*.css
-Allow: /assets/*.js
+Allow: /sw.js
+Allow: /manifest.json
 
-# Block access to sensitive or unnecessary files
-Disallow: /.*
-Disallow: /*.log
-Disallow: /private/
-Disallow: /temp/
-Disallow: /node_modules/
-Disallow: /.git/
-Disallow: /src/
-
-# Sitemap location
+# Sitemaps for enhanced mobile SEO
 Sitemap: https://mustafaer.net/sitemap.xml
+Sitemap: https://mustafaer.net/sitemap-mobile.xml
 
-# Additional sitemaps
-Sitemap: https://mustafaer.net/sitemap-projects.xml
+# Crawl delay for respectful crawling
+Crawl-delay: 1
+
+# Host directive for canonical domain
+Host: https://mustafaer.net
