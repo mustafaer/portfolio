@@ -1,3 +1,40 @@
 User-agent: *
 Allow: /
+
+# Enhanced SEO directives
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Slurp
+Allow: /
+Crawl-delay: 2
+
+# Allow all search engines to access important files
+Allow: /assets/
+Allow: /styles.css
+Allow: /main.js
+Allow: /assets/*.png
+Allow: /assets/*.jpg
+Allow: /assets/*.ico
+Allow: /assets/*.css
+Allow: /assets/*.js
+
+# Block access to sensitive or unnecessary files
+Disallow: /.*
+Disallow: /*.log
+Disallow: /private/
+Disallow: /temp/
+Disallow: /node_modules/
+Disallow: /.git/
+Disallow: /src/
+
+# Sitemap location
 Sitemap: https://mustafaer.net/sitemap.xml
+
+# Additional sitemaps
+Sitemap: https://mustafaer.net/sitemap-projects.xml
