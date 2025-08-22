@@ -44,14 +44,4 @@
     <mobile:mobile type="pc,mobile"/>
   </url>
 
-  <!-- Mobile App Projects -->
-  <url>
-    <loc>https://play.google.com/store/apps/details?id=net.mustafaer.app.weighttracker</loc>
-    <lastmod>2025-08-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-    <mobile:mobile type="mobile"/>
-  </url>
-
 </urlset>
-
