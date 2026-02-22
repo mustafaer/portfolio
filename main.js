@@ -1,1013 +1,183 @@
 /**
- * Modern Portfolio JavaScript - Enhanced Functionality with Mobile Support
+ * Premium Portfolio 2025 - Main Script
+ * Author: Mustafa ER
  */
 
-class PortfolioApp {
-  constructor() {
-    this.isLoaded = false;
-    this.isMobile = window.innerWidth <= 768;
-    this.isTablet = window.innerWidth <= 1024 && window.innerWidth > 768;
-    this.touchStartY = 0;
-    this.touchEndY = 0;
-    this.init();
-  }
-
-  init() {
-    this.setupLoader();
-    this.setupNavigation();
-    this.setupMobileNavigation();
-    this.setupParticles();
-    this.setupTypingAnimation();
-    this.setupScrollAnimations();
-    this.setupProjectFilters();
-    this.setupScrollToTop();
-    this.setupIntersectionObserver();
-    this.setupTouchHandlers();
-    this.setupResizeHandler();
-    this.setupMobileOptimizations();
-    this.setupAccessibility();
-
-    // Initialize Mobile SEO Features
-    this.initMobileSEO();
-  }
-
-  // Loading Animation
-  setupLoader() {
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        const loader = document.getElementById('loader');
-        loader.classList.add('hidden');
-        this.isLoaded = true;
-        this.startAnimations();
-      }, 1500);
-    });
-  }
-
-  startAnimations() {
-    // Trigger initial animations after loading
-    if (!this.isMobile) {
-      this.createParticleEffect();
-    }
-    this.animateSkillCards();
-  }
-
-  // Enhanced Navigation with Mobile Support
-  setupNavigation() {
-    const navLinks = document.querySelectorAll('.nav-link');
-    const nav = document.getElementById('floatingNav');
-
-    // Smooth scroll navigation
-    navLinks.forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const targetId = link.getAttribute('href').substring(1);
-        const targetSection = document.getElementById(targetId);
-
-        if (targetSection) {
-          this.scrollToSection(targetSection);
-          this.setActiveNav(link);
-
-          // Close mobile menu if open
-          if (this.isMobile) {
-            this.closeMobileMenu();
-          }
-        }
-      });
-    });
-
-    // Nav background on scroll
-    window.addEventListener('scroll', () => {
-      const scrolled = window.scrollY > 100;
-      nav.classList.toggle('scrolled', scrolled);
-    });
-  }
-
-  // Mobile Navigation
-  setupMobileNavigation() {
-    const navToggle = document.getElementById('navToggle');
-    const navLinks = document.querySelector('.nav-links');
-    const nav = document.getElementById('floatingNav');
-
-    if (navToggle && navLinks) {
-      // Toggle mobile menu
-      navToggle.addEventListener('click', (e) => {
-        e.stopPropagation();
-        this.toggleMobileMenu();
-      });
-
-      // Close menu when clicking outside
-      document.addEventListener('click', (e) => {
-        if (!nav.contains(e.target)) {
-          this.closeMobileMenu();
-        }
-      });
-
-      // Close menu on escape key
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-          this.closeMobileMenu();
-        }
-      });
-
-      // Prevent menu close when clicking inside nav
-      navLinks.addEventListener('click', (e) => {
-        e.stopPropagation();
-      });
-    }
-  }
-
-  toggleMobileMenu() {
-    const navToggle = document.getElementById('navToggle');
-    const navLinks = document.querySelector('.nav-links');
-
-    navToggle.classList.toggle('active');
-    navLinks.classList.toggle('active');
-
-    // Prevent body scroll when menu is open
-    document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : 'auto';
-  }
-
-  closeMobileMenu() {
-    const navToggle = document.getElementById('navToggle');
-    const navLinks = document.querySelector('.nav-links');
-
-    if (navToggle && navLinks) {
-      navToggle.classList.remove('active');
-      navLinks.classList.remove('active');
-      document.body.style.overflow = 'auto';
-    }
-  }
-
-  // Touch Handlers for Mobile
-  setupTouchHandlers() {
-    // Swipe to close mobile menu
-    const navLinks = document.querySelector('.nav-links');
-
-    if (navLinks) {
-      navLinks.addEventListener('touchstart', (e) => {
-        this.touchStartY = e.changedTouches[0].screenY;
-      }, { passive: true });
-
-      navLinks.addEventListener('touchend', (e) => {
-        this.touchEndY = e.changedTouches[0].screenY;
-        this.handleSwipe();
-      }, { passive: true });
-    }
-
-    // Improve touch interactions for cards
-    const touchElements = document.querySelectorAll('.project-card, .skill-card, .contact-card');
-
-    touchElements.forEach(element => {
-      element.addEventListener('touchstart', () => {
-        element.classList.add('touch-active');
-      }, { passive: true });
-
-      element.addEventListener('touchend', () => {
-        setTimeout(() => {
-          element.classList.remove('touch-active');
-        }, 150);
-      }, { passive: true });
-    });
-  }
-
-  handleSwipe() {
-    const swipeThreshold = 50;
-    const diff = this.touchStartY - this.touchEndY;
-
-    // Swipe up to close menu
-    if (diff > swipeThreshold) {
-      this.closeMobileMenu();
-    }
-  }
-
-  // Resize Handler
-  setupResizeHandler() {
-    let resizeTimer;
-
-    window.addEventListener('resize', () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => {
-        this.handleResize();
-      }, 250);
-    });
-  }
-
-  handleResize() {
-    const wasMobile = this.isMobile;
-    this.isMobile = window.innerWidth <= 768;
-    this.isTablet = window.innerWidth <= 1024 && window.innerWidth > 768;
-
-    // If switching from mobile to desktop, close mobile menu
-    if (wasmobile && !this.isMobile) {
-      this.closeMobileMenu();
-    }
-
-    // Recreate particles if needed
-    if (!this.isMobile && wasMobile) {
-      this.createParticleEffect();
-    } else if (this.isMobile && !wasobile) {
-      this.clearParticles();
-    }
-
-    // Update typing animation for mobile
-    this.updateTypingAnimation();
-  }
-
-  // Mobile Optimizations
-  setupMobileOptimizations() {
-    if (this.isMobile) {
-      // Reduce animation complexity
-      document.body.classList.add('mobile-device');
-
-      // Optimize images for mobile
-      this.optimizeImagesForMobile();
-
-      // Setup lazy loading
-      this.setupLazyLoading();
-
-      // Reduce motion if preferred
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        document.body.classList.add('reduce-motion');
-      }
-    }
-  }
-
-  optimizeImagesForMobile() {
-    const images = document.querySelectorAll('img');
-
-    images.forEach(img => {
-      // Add loading lazy for better performance
-      img.loading = 'lazy';
-
-      // Add mobile-optimized classes
-      img.classList.add('mobile-optimized');
-    });
-  }
-
-  setupLazyLoading() {
-    if ('IntersectionObserver' in window) {
-      const imageObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const img = entry.target;
-            img.src = img.dataset.src || img.src;
-            img.classList.remove('lazy');
-            observer.unobserve(img);
-          }
-        });
-      });
-
-      document.querySelectorAll('img[data-src]').forEach(img => {
-        imageObserver.observe(img);
-      });
-    }
-  }
-
-  // Accessibility Enhancements
-  setupAccessibility() {
-    // Focus management for mobile navigation
-    const navToggle = document.getElementById('navToggle');
-    const navLinks = document.querySelector('.nav-links');
-
-    if (navToggle && navLinks) {
-      navToggle.setAttribute('aria-label', 'Toggle navigation menu');
-      navToggle.setAttribute('aria-expanded', 'false');
-      navToggle.setAttribute('aria-controls', 'navigation-menu');
-      navLinks.setAttribute('id', 'navigation-menu');
-
-      // Update aria-expanded when menu toggles
-      const originalToggle = this.toggleMobileMenu.bind(this);
-      this.toggleMobileMenu = () => {
-        originalToggle();
-        const isOpen = navLinks.classList.contains('active');
-        navToggle.setAttribute('aria-expanded', isOpen.toString());
-      };
-    }
-
-    // Skip to content link for mobile
-    this.createSkipLink();
-
-    // Improve focus indicators
-    this.enhanceFocusIndicators();
-  }
-
-  createSkipLink() {
-    const skipLink = document.createElement('a');
-    skipLink.href = '#home';
-    skipLink.textContent = 'Skip to main content';
-    skipLink.className = 'skip-link';
-    skipLink.style.cssText = `
-      position: absolute;
-      top: -40px;
-      left: 6px;
-      background: var(--primary-bg);
-      color: var(--text-primary);
-      padding: 8px;
-      border-radius: 4px;
-      text-decoration: none;
-      z-index: 10000;
-      transition: top 0.3s;
-    `;
-
-    skipLink.addEventListener('focus', () => {
-      skipLink.style.top = '6px';
-    });
-
-    skipLink.addEventListener('blur', () => {
-      skipLink.style.top = '-40px';
-    });
-
-    document.body.insertBefore(skipLink, document.body.firstChild);
-  }
-
-  enhanceFocusIndicators() {
-    // Add focus-visible polyfill behavior
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Tab') {
-        document.body.classList.add('using-keyboard');
-      }
-    });
-
-    document.addEventListener('mousedown', () => {
-      document.body.classList.remove('using-keyboard');
-    });
-  }
-
-  scrollToSection(target) {
-    const navHeight = this.isMobile ? 80 : 100;
-    const targetPosition = target.offsetTop - navHeight;
-
-    window.scrollTo({
-      top: targetPosition,
-      behavior: 'smooth'
-    });
-  }
-
-  setActiveNav(activeLink) {
-    document.querySelectorAll('.nav-link').forEach(link => {
-      link.classList.remove('active');
-    });
-    activeLink.classList.add('active');
-  }
-
-  // Particle Animation System (Desktop only)
-  setupParticles() {
-    this.particles = [];
-    this.particleContainer = document.getElementById('particles');
-
-    if (this.isMobile) {
-      return; // Skip particles on mobile for performance
-    }
-  }
-
-  createParticleEffect() {
-    if (!this.isLoaded || this.isMobile) return;
-
-    const particleCount = this.isTablet ? 30 : 50;
-
-    for (let i = 0; i < particleCount; i++) {
-      this.createParticle();
-    }
-
-    this.animateParticles();
-  }
-
-  createParticle() {
-    const particle = document.createElement('div');
-    particle.className = 'particle';
-    particle.style.cssText = `
-      position: absolute;
-      width: 2px;
-      height: 2px;
-      background: rgba(102, 126, 234, 0.5);
-      border-radius: 50%;
-      pointer-events: none;
-    `;
-
-    this.resetParticle(particle);
-    this.particleContainer.appendChild(particle);
-    this.particles.push(particle);
-  }
-
-  resetParticle(particle) {
-    particle.style.left = Math.random() * window.innerWidth + 'px';
-    particle.style.top = Math.random() * window.innerHeight + 'px';
-    particle.vx = (Math.random() - 0.5) * 0.5;
-    particle.vy = (Math.random() - 0.5) * 0.5;
-    particle.life = Math.random() * 100;
-  }
-
-  animateParticles() {
-    if (this.isMobile) return;
-
-    this.particles.forEach(particle => {
-      const currentLeft = parseFloat(particle.style.left);
-      const currentTop = parseFloat(particle.style.top);
-
-      particle.style.left = currentLeft + particle.vx + 'px';
-      particle.style.top = currentTop + particle.vy + 'px';
-
-      particle.life--;
-
-      if (particle.life <= 0 ||
-          currentLeft < 0 || currentLeft > window.innerWidth ||
-          currentTop < 0 || currentTop > window.innerHeight) {
-        this.resetParticle(particle);
-      }
-    });
-
-    requestAnimationFrame(() => this.animateParticles());
-  }
-
-  clearParticles() {
-    this.particles.forEach(particle => {
-      if (particle.parentNode) {
-        particle.parentNode.removeChild(particle);
-      }
-    });
-    this.particles = [];
-  }
-
-  // Enhanced Typing Animation with Mobile Support
-  setupTypingAnimation() {
-    const typingElement = document.getElementById('typingText');
-    if (!typingElement) return;
-
-    const texts = [
-      'Frontend Developer',
-      'Angular Specialist',
-      'UI/UX Designer',
-      'Full Stack Developer',
-      'Problem Solver'
-    ];
-
-    let textIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
-    const typeSpeed = this.isMobile ? 80 : 50;
-    const deleteSpeed = this.isMobile ? 40 : 25;
-    const pauseTime = this.isMobile ? 1500 : 2000;
-
-    const type = () => {
-      const currentText = texts[textIndex];
-
-      if (isDeleting) {
-        typingElement.textContent = currentText.substring(0, charIndex - 1);
-        charIndex--;
-      } else {
-        typingElement.textContent = currentText.substring(0, charIndex + 1);
-        charIndex++;
-      }
-
-      let nextDelay = isDeleting ? deleteSpeed : typeSpeed;
-
-      if (!isDeleting && charIndex === currentText.length) {
-        nextDelay = pauseTime;
-        isDeleting = true;
-      } else if (isDeleting && charIndex === 0) {
-        isDeleting = false;
-        textIndex = (textIndex + 1) % texts.length;
-      }
-
-      setTimeout(type, nextDelay);
-    };
-
-    setTimeout(type, 1000);
-  }
-
-  updateTypingAnimation() {
-    // Restart typing animation with new mobile settings if needed
-    const typingElement = document.getElementById('typingText');
-    if (typingElement) {
-      // Clear current animation and restart
-      typingElement.textContent = '';
-      setTimeout(() => this.setupTypingAnimation(), 100);
-    }
-  }
-
-  // Enhanced Project Filters with Mobile Support
-  setupProjectFilters() {
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const projectCards = document.querySelectorAll('.project-card');
-
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const filter = btn.getAttribute('data-filter');
-
-        // Update active filter button
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-
-        // Filter projects with mobile-optimized animation
-        this.filterProjects(projectCards, filter);
-      });
-    });
-  }
-
-  filterProjects(cards, filter) {
-    cards.forEach((card, index) => {
-      const shouldShow = filter === 'all' || card.classList.contains(filter);
-
-      if (shouldShow) {
-        card.style.display = 'block';
-        // Stagger animation for better mobile performance
-        setTimeout(() => {
-          card.style.opacity = '1';
-          card.style.transform = 'translateY(0)';
-        }, index * (this.isMobile ? 50 : 100));
-      } else {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(20px)';
-        setTimeout(() => {
-          card.style.display = 'none';
-        }, 300);
-      }
-    });
-  }
-
-  // Intersection Observer for Mobile Performance
-  setupIntersectionObserver() {
-    if ('IntersectionObserver' in window) {
-      const observerOptions = {
-        threshold: this.isMobile ? 0.1 : 0.2,
-        rootMargin: this.isMobile ? '50px' : '100px'
-      };
-
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('animate-in');
-
-            // Update active navigation
-            const id = entry.target.getAttribute('id');
-            if (id) {
-              const navLink = document.querySelector(`[href="#${id}"]`);
-              if (navLink) {
-                this.setActiveNav(navLink);
-              }
-            }
-          }
-        });
-      }, observerOptions);
-
-      // Observe all sections
-      document.querySelectorAll('section[id]').forEach(section => {
-        observer.observe(section);
-      });
-
-      // Observe cards for animation
-      document.querySelectorAll('.skill-card, .project-card, .contact-card').forEach(card => {
-        observer.observe(card);
-      });
-    }
-  }
-
-  // Enhanced Scroll Animations
-  setupScrollAnimations() {
-    const animatedElements = document.querySelectorAll('.hero-content, .about-text, .section-header');
-
-    // Reduce animations on mobile for better performance
-    if (this.isMobile) {
-      animatedElements.forEach(el => {
-        el.classList.add('mobile-animation');
-      });
-    }
-  }
-
-  // Mobile-optimized Scroll to Top
-  setupScrollToTop() {
-    const scrollBtn = document.querySelector('.scroll-to-top');
-    if (!scrollBtn) return;
-
-    const toggleScrollBtn = () => {
-      const scrolled = window.scrollY > (this.isMobile ? 300 : 500);
-      scrollBtn.classList.toggle('visible', scrolled);
-    };
-
-    window.addEventListener('scroll', toggleScrollBtn);
-
-    scrollBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-    });
-  }
-
-  // Animate skill cards with mobile optimization
-  animateSkillCards() {
-    const skillCards = document.querySelectorAll('.skill-card');
-
-    skillCards.forEach((card, index) => {
-      setTimeout(() => {
-        card.style.opacity = '1';
-        card.style.transform = 'translateY(0)';
-      }, index * (this.isMobile ? 50 : 100));
-    });
-  }
-
-  // Performance monitoring for mobile
-  monitorPerformance() {
-    if ('performance' in window && 'memory' in performance) {
-      const memory = performance.memory;
-      const memoryLimit = 50 * 1024 * 1024; // 50MB threshold
-
-      if (memory.usedJSMemorySize > memoryLimit) {
-        // Reduce effects on low-memory devices
-        this.clearParticles();
-        document.body.classList.add('low-memory-mode');
-      }
-    }
-
-    // Mobile SEO: Monitor Core Web Vitals
-    this.monitorCoreWebVitals();
-
-    // Mobile SEO: Track user engagement
-    this.trackMobileEngagement();
-  }
-
-  // Monitor Core Web Vitals for Mobile SEO
-  monitorCoreWebVitals() {
-    // Largest Contentful Paint (LCP)
-    if ('PerformanceObserver' in window) {
-      try {
-        const lcpObserver = new PerformanceObserver((entryList) => {
-          const entries = entryList.getEntries();
-          const lastEntry = entries[entries.length - 1];
-
-          if (typeof gtag !== 'undefined') {
-            gtag('event', 'web_vitals', {
-              event_category: 'Mobile Performance',
-              event_label: 'LCP',
-              value: Math.round(lastEntry.startTime),
-              non_interaction: true,
-              custom_parameter_1: this.isMobile ? 'mobile' : 'desktop'
-            });
-          }
-
-          // SEO: Log performance data
-          console.log('Mobile LCP:', Math.round(lastEntry.startTime), 'ms');
-        });
-
-        lcpObserver.observe({ type: 'largest-contentful-paint', buffered: true });
-      } catch (error) {
-        console.warn('LCP monitoring not supported:', error);
-      }
-
-      // First Input Delay (FID)
-      try {
-        const fidObserver = new PerformanceObserver((entryList) => {
-          const entries = entryList.getEntries();
-          entries.forEach((entry) => {
-            const fid = entry.processingStart - entry.startTime;
-
-            if (typeof gtag !== 'undefined') {
-              gtag('event', 'web_vitals', {
-                event_category: 'Mobile Performance',
-                event_label: 'FID',
-                value: Math.round(fid),
-                non_interaction: true,
-                custom_parameter_1: this.isMobile ? 'mobile' : 'desktop'
-              });
-            }
-
-            console.log('Mobile FID:', Math.round(fid), 'ms');
-          });
-        });
-
-        fidObserver.observe({ type: 'first-input', buffered: true });
-      } catch (error) {
-        console.warn('FID monitoring not supported:', error);
-      }
-
-      // Cumulative Layout Shift (CLS)
-      try {
-        let clsValue = 0;
-        const clsObserver = new PerformanceObserver((entryList) => {
-          const entries = entryList.getEntries();
-          entries.forEach((entry) => {
-            if (!entry.hadRecentInput) {
-              clsValue += entry.value;
-            }
-          });
-
-          if (typeof gtag !== 'undefined') {
-            gtag('event', 'web_vitals', {
-              event_category: 'Mobile Performance',
-              event_label: 'CLS',
-              value: Math.round(clsValue * 1000),
-              non_interaction: true,
-              custom_parameter_1: this.isMobile ? 'mobile' : 'desktop'
-            });
-          }
-
-          console.log('Mobile CLS:', clsValue.toFixed(4));
-        });
-
-        clsObserver.observe({ type: 'layout-shift', buffered: true });
-      } catch (error) {
-        console.warn('CLS monitoring not supported:', error);
-      }
-    }
-  }
-
-  // Track Mobile User Engagement for SEO
-  trackMobileEngagement() {
-    if (!this.isMobile) return;
-
-    // Track mobile scroll depth
-    let maxScrollDepth = 0;
-    const trackScrollDepth = () => {
-      const scrollDepth = Math.round((window.scrollY + window.innerHeight) / document.documentElement.scrollHeight * 100);
-
-      if (scrollDepth > maxScrollDepth) {
-        maxScrollDepth = scrollDepth;
-
-        // Track milestone scroll depths
-        if ([25, 50, 75, 90, 100].includes(scrollDepth)) {
-          if (typeof gtag !== 'undefined') {
-            gtag('event', 'scroll_depth', {
-              event_category: 'Mobile Engagement',
-              event_label: `${scrollDepth}%`,
-              value: scrollDepth,
-              custom_parameter_1: 'mobile_scroll'
-            });
-          }
-        }
-      }
-    };
-
-    window.addEventListener('scroll', this.throttle(trackScrollDepth, 500), { passive: true });
-
-    // Track mobile session time
-    const sessionStart = Date.now();
-    window.addEventListener('beforeunload', () => {
-      const sessionDuration = Math.round((Date.now() - sessionStart) / 1000);
-
-      if (typeof gtag !== 'undefined') {
-        gtag('event', 'session_duration', {
-          event_category: 'Mobile Engagement',
-          event_label: 'Session Time',
-          value: sessionDuration,
-          custom_parameter_1: 'mobile_session'
-        });
-      }
-    });
-
-    // Track mobile interactions
-    document.addEventListener('click', (e) => {
-      if (e.target.closest('.project-card')) {
-        if (typeof gtag !== 'undefined') {
-          gtag('event', 'project_view', {
-            event_category: 'Mobile Engagement',
-            event_label: 'Project Card Click',
-            custom_parameter_1: 'mobile_interaction'
-          });
-        }
-      }
-
-      if (e.target.closest('.contact-btn')) {
-        if (typeof gtag !== 'undefined') {
-          gtag('event', 'contact_intent', {
-            event_category: 'Mobile Engagement',
-            event_label: 'Contact Button Click',
-            custom_parameter_1: 'mobile_conversion'
-          });
-        }
-      }
-    });
-
-    // Track mobile navigation usage
-    document.addEventListener('click', (e) => {
-      if (e.target.closest('.nav-link')) {
-        const section = e.target.getAttribute('data-section');
-        if (typeof gtag !== 'undefined') {
-          gtag('event', 'navigation', {
-            event_category: 'Mobile Navigation',
-            event_label: section,
-            custom_parameter_1: 'mobile_nav'
-          });
-        }
-      }
-    });
-
-    // Track mobile device orientation changes
-    window.addEventListener('orientationchange', () => {
-      setTimeout(() => {
-        const orientation = window.orientation === 90 || window.orientation === -90 ? 'landscape' : 'portrait';
-
-        if (typeof gtag !== 'undefined') {
-          gtag('event', 'orientation_change', {
-            event_category: 'Mobile Behavior',
-            event_label: orientation,
-            custom_parameter_1: 'mobile_orientation'
-          });
-        }
-      }, 100);
-    });
-  }
-
-  // Throttle function for performance
-  throttle(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-      const later = () => {
-        clearTimeout(timeout);
-        func(...args);
-      };
-      clearTimeout(timeout);
-      timeout = setTimeout(later, wait);
-    };
-  }
-
-  // Enhanced mobile SEO structured data injection
-  injectMobileSEOData() {
-    // Add mobile-specific structured data
-    const mobileStructuredData = {
-      "@context": "https://schema.org",
-      "@type": "MobileApplication",
-      "name": "Mustafa ER Portfolio",
-      "operatingSystem": "Android, iOS",
-      "applicationCategory": "BusinessApplication",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
-      "creator": {
-        "@type": "Person",
-        "name": "Mustafa ER"
-      }
-    };
-
-    const script = document.createElement('script');
-    script.type = 'application/ld+json';
-    script.textContent = JSON.stringify(mobileStructuredData);
-    document.head.appendChild(script);
-
-    // Add mobile-specific meta tags dynamically
-    if (this.isMobile) {
-      const mobileMeta = [
-        { name: 'mobile-web-app-capable', content: 'yes' },
-        { name: 'mobile-web-app-status-bar-style', content: 'black-translucent' },
-        { name: 'format-detection', content: 'telephone=yes' }
-      ];
-
-      mobileMeta.forEach(meta => {
-        const existingMeta = document.querySelector(`meta[name="${meta.name}"]`);
-        if (!existingMeta) {
-          const metaTag = document.createElement('meta');
-          metaTag.name = meta.name;
-          metaTag.content = meta.content;
-          document.head.appendChild(metaTag);
-        }
-      });
-    }
-  }
-
-  // Initialize mobile SEO features
-  initMobileSEO() {
-    this.injectMobileSEOData();
-    this.monitorPerformance();
-
-    // Mobile-specific PWA features
-    if ('serviceWorker' in navigator && this.isMobile) {
-      this.initPWAFeatures();
-    }
-
-    // Mobile SEO: Add breadcrumb navigation
-    this.addBreadcrumbNavigation();
-  }
-
-  // Initialize PWA features for mobile
-  initPWAFeatures() {
-    // Show install prompt on mobile
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      this.deferredPrompt = e;
-
-      // Show install button for mobile users
-      this.showInstallPrompt();
-    });
-
-    // Track PWA installation
-    window.addEventListener('appinstalled', (e) => {
-      if (typeof gtag !== 'undefined') {
-        gtag('event', 'pwa_install', {
-          event_category: 'Mobile Engagement',
-          event_label: 'PWA Installed',
-          custom_parameter_1: 'mobile_pwa'
-        });
-      }
-    });
-  }
-
-  // Show mobile install prompt
-  showInstallPrompt() {
-    if (!this.isMobile || !this.deferredPrompt) return;
-
-    const installBanner = document.createElement('div');
-    installBanner.className = 'install-banner';
-    installBanner.innerHTML = `
-      <div class="install-content">
-        <div class="install-icon">📱</div>
-        <div class="install-text">
-          <h4>Install Portfolio App</h4>
-          <p>Get quick access to my portfolio</p>
-        </div>
-        <button class="install-btn">Install</button>
-        <button class="install-close">×</button>
-      </div>
-    `;
-
-    installBanner.style.cssText = `
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      right: 20px;
-      background: rgba(30, 41, 59, 0.95);
-      backdrop-filter: blur(10px);
-      border-radius: 12px;
-      padding: 16px;
-      z-index: 1000;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    `;
-
-    document.body.appendChild(installBanner);
-
-    // Handle install button click
-    installBanner.querySelector('.install-btn').addEventListener('click', async () => {
-      this.deferredPrompt.prompt();
-      const { outcome } = await this.deferredPrompt.userChoice;
-
-      if (typeof gtag !== 'undefined') {
-        gtag('event', 'pwa_prompt_response', {
-          event_category: 'Mobile Engagement',
-          event_label: outcome,
-          custom_parameter_1: 'mobile_pwa_prompt'
-        });
-      }
-
-      installBanner.remove();
-      this.deferredPrompt = null;
-    });
-
-    // Handle close button
-    installBanner.querySelector('.install-close').addEventListener('click', () => {
-      installBanner.remove();
-    });
-
-    // Auto-hide after 10 seconds
-    setTimeout(() => {
-      if (installBanner.parentNode) {
-        installBanner.remove();
-      }
-    }, 10000);
-  }
-
-  // Add breadcrumb navigation for mobile SEO
-  addBreadcrumbNavigation() {
-    const breadcrumbData = {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Home",
-          "item": "https://mustafaer.net/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Portfolio",
-          "item": "https://mustafaer.net/#projects"
-        }
-      ]
-    };
-
-    const breadcrumbScript = document.createElement('script');
-    breadcrumbScript.type = 'application/ld+json';
-    breadcrumbScript.textContent = JSON.stringify(breadcrumbData);
-    document.head.appendChild(breadcrumbScript);
-  }
-}
-
-// Initialize the portfolio app
 document.addEventListener('DOMContentLoaded', () => {
-  new PortfolioApp();
-});
+  
+  // 1. Spotlight Effect (Mouse Tracking Light)
+  const spotlightCards = document.querySelectorAll('.spotlight-card');
 
-// Service Worker Registration for PWA support
-if ('serviceWorker' in navigator && !window.location.hostname.includes('localhost')) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
-      .then(registration => {
-        console.log('SW registered: ', registration);
-      })
-      .catch(registrationError => {
-        console.log('SW registration failed: ', registrationError);
-      });
+  document.addEventListener('mousemove', (e) => {
+    spotlightCards.forEach(card => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      card.style.setProperty('--mouse-x', `${x}px`);
+      card.style.setProperty('--mouse-y', `${y}px`);
+    });
   });
-}
+
+  // 2. Magnetic Buttons Effect
+  const magneticWraps = document.querySelectorAll('.magnetic-wrap');
+
+  magneticWraps.forEach(wrap => {
+    wrap.addEventListener('mousemove', (e) => {
+      const area = wrap.querySelector('.magnetic-area');
+      if (!area) return;
+
+      const rect = wrap.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+
+      area.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+      area.style.transition = 'transform 0s';
+    });
+
+    wrap.addEventListener('mouseleave', () => {
+      const area = wrap.querySelector('.magnetic-area');
+      if (!area) return;
+
+      area.style.transform = 'translate(0, 0)';
+      area.style.transition = 'transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1)';
+    });
+  });
+
+  // 3. Project Slider Logic
+  const track = document.getElementById('projectsTrack');
+  const prevBtn = document.querySelector('.prev-btn');
+  const nextBtn = document.querySelector('.next-btn');
+
+  if (track && prevBtn && nextBtn) {
+    // Button Navigation
+    prevBtn.addEventListener('click', () => {
+      track.scrollBy({ left: -350, behavior: 'smooth' });
+    });
+
+    nextBtn.addEventListener('click', () => {
+      track.scrollBy({ left: 350, behavior: 'smooth' });
+    });
+
+    // Drag to Scroll (Desktop)
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    track.addEventListener('mousedown', (e) => {
+      isDown = true;
+      track.classList.add('active');
+      startX = e.pageX - track.offsetLeft;
+      scrollLeft = track.scrollLeft;
+    });
+
+    track.addEventListener('mouseleave', () => {
+      isDown = false;
+      track.classList.remove('active');
+    });
+
+    track.addEventListener('mouseup', () => {
+      isDown = false;
+      track.classList.remove('active');
+    });
+
+    track.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - track.offsetLeft;
+      const walk = (x - startX) * 2; // Scroll speed
+      track.scrollLeft = scrollLeft - walk;
+    });
+  }
+
+  // 4. Active Navigation Link on Scroll
+  const sections = document.querySelectorAll('section');
+  const navLinks = document.querySelectorAll('.nav-item');
+
+  const observerOptions = {
+    root: null,
+    threshold: 0.2,
+    rootMargin: "-50px 0px -50px 0px"
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(link => link.classList.remove('active'));
+        const id = entry.target.getAttribute('id');
+        const activeLink = document.querySelector(`.nav-item[href="#${id}"]`);
+        if (activeLink) {
+          activeLink.classList.add('active');
+        }
+      }
+    });
+  }, observerOptions);
+
+  sections.forEach(section => observer.observe(section));
+
+  // 5. Smooth Scroll
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const targetId = this.getAttribute('href');
+      const targetSection = document.querySelector(targetId);
+      
+      if (targetSection) {
+        targetSection.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    });
+  });
+
+  // 6. Scroll Reveal Animation
+  const revealElements = document.querySelectorAll('.bento-item, .project-card, .skill-category, .contact-text, .timeline-item');
+
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  revealElements.forEach((el, index) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(30px)';
+    el.style.transition = 'all 0.8s cubic-bezier(0.5, 0, 0, 1)';
+    el.style.transitionDelay = `${index * 0.05}s`;
+    revealObserver.observe(el);
+  });
+
+  const style = document.createElement('style');
+  style.innerHTML = `
+    .revealed {
+      opacity: 1 !important;
+      transform: translateY(0) !important;
+    }
+  `;
+  document.head.appendChild(style);
+
+  // 7. Dynamic Local Time (Turkey GMT+3)
+  function updateTime() {
+    const timeElement = document.getElementById('local-time');
+    if (timeElement) {
+      const now = new Date();
+      const options = { timeZone: 'Europe/Istanbul', hour: '2-digit', minute: '2-digit' };
+      const timeString = now.toLocaleTimeString('en-US', options);
+      timeElement.textContent = `${timeString} (GMT+3)`;
+    }
+  }
+  setInterval(updateTime, 1000);
+  updateTime();
+
+  // 8. Dynamic Year
+  const footerYear = document.querySelector('footer p');
+  if (footerYear) {
+    const currentYear = new Date().getFullYear();
+    footerYear.innerHTML = footerYear.innerHTML.replace('2025', currentYear);
+  }
+
+});

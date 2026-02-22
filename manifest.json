@@ -1,0 +1,26 @@
+{
+  "name": "Mustafa ER Portfolio",
+  "short_name": "Mustafa ER",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#050505",
+  "description": "Senior Frontend Engineer Portfolio",
+  "icons": [
+    {
+      "src": "assets/sddlabs-logo-1.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "assets/apple-touch-icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/apple-touch-icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
